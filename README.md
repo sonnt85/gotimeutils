@@ -79,6 +79,10 @@ s := gotimeutils.StringDuration(25*time.Hour + 30*time.Minute) // "1d1h30m0s"
 - `TimeNowUTC() string` — current UTC time as `"2006-01-02 15:04:05"` string
 - `GetTodaysDate/GetTodaysDateTime/GetTodaysDateTimeFormatted() string` — formatted current date/time
 
+## Author
+
+**sonnt85** — [thanhson.rf@gmail.com](mailto:thanhson.rf@gmail.com)
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details.
