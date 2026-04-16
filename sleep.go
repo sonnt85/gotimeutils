@@ -57,12 +57,12 @@ func (ss *TickerStep) Update() {
 	ss.ticker.Reset(ss.sleepDuration)
 }
 
-//sleep random from mind to maxd duration
+// sleep random from mind to maxd duration
 func SleepRandRange(mind, maxd time.Duration) {
 	time.Sleep(time.Duration(endec.RandRangeInt64(int64(mind.Nanoseconds()), int64(maxd.Nanoseconds()))) * time.Nanosecond)
 }
 
-//sleep random from 0 to max duration
+// sleep random from 0 to max duration
 func SleepRandMax(d time.Duration) {
 	SleepRandRange(0, d)
 }

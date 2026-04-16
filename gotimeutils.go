@@ -6,10 +6,15 @@ import (
 	"time"
 )
 
-func ConvetTimestamsToLocalTime(tm int64) time.Time {
+func ConvertTimestampsToLocalTime(tm int64) time.Time {
 	timeTmp := time.Unix(tm, 0)
 	local, _ := time.LoadLocation("Local")
 	return timeTmp.In(local)
+}
+
+// Deprecated: Use ConvertTimestampsToLocalTime instead.
+func ConvetTimestamsToLocalTime(tm int64) time.Time {
+	return ConvertTimestampsToLocalTime(tm)
 }
 
 func TimeNowUTC() string {
