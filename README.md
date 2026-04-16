@@ -1,5 +1,7 @@
 # gotimeutils
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/sonnt85/gotimeutils.svg)](https://pkg.go.dev/github.com/sonnt85/gotimeutils)
+
 Time utility library for Go — flexible time parsing, period boundaries, stepped sleep, and duration formatting.
 
 ## Installation
@@ -49,20 +51,40 @@ s := gotimeutils.StringDuration(25*time.Hour + 30*time.Minute) // "1d1h30m0s"
 
 ## API
 
+### Configuration
+
+- `type Config struct` — parser configuration (holds `WeekStartDay` and `TimeFormats`)
+- `(*Config).With(t time.Time) *Now` — wrap a time for method chaining using this config
+- `(*Config).Parse(strs ...string) (time.Time, error)` — parse using this config's formats
+- `(*Config).MustParse(strs ...string) time.Time` — parse or panic using this config
+- `var DefaultConfig *Config` — the package-level default configuration
+- `var WeekStartDay = time.Sunday` — configurable start-of-week day
+- `var TimeFormats []string` — list of date/time format strings tried during parsing
+
 ### Parsing
 - `Parse(strs ...string) (time.Time, error)` — parse one or more date/time strings
 - `MustParse(strs ...string) time.Time` — parse or panic
-- `ParseInLocation(loc, strs...)` — parse in a specific timezone
+- `ParseInLocation(loc *time.Location, strs ...string) (time.Time, error)` — parse in a specific timezone
+- `MustParseInLocation(loc *time.Location, strs ...string) time.Time` — parse in timezone or panic
 - `With(t time.Time) *Now` — wrap a time for method chaining
 - `NewNow(t time.Time) *Now` — alias for `With`
 
 ### Period Boundaries (package-level)
 - `BeginningOf{Minute,Hour,Day,Week,Month,Quarter,Year}() time.Time`
 - `EndOf{Minute,Hour,Day,Week,Month,Quarter,Year}() time.Time`
+- `EndOfNextMonth() time.Time` — end of the month after the current one
+- `EndOfSunday() time.Time` — end of the current week's Sunday
 - `Monday/Sunday(strs ...string) time.Time` — Monday/Sunday of current or given week
 - `Between(time1, time2 string) bool` — check if now is between two times
 - `Quarter() uint` — current quarter (1–4)
 - `NumDaysOfMonth() int` — number of days in current month
+
+### Period Boundaries (*Now methods)
+- `(*Now).BeginningOf{Minute,Hour,Day,Week,Month,Quarter,Half,Year}() time.Time`
+- `(*Now).EndOf{Minute,Hour,Day,Week,Month,NextMonth,Quarter,Half,Year}() time.Time`
+- `(*Now).EndOfSunday() time.Time`
+- `(*Now).Monday/Sunday(strs ...string) time.Time`
+- `(*Now).Quarter() uint`
 
 ### Stepped Sleep
 - `NewSleepStep(step, min, max Duration) *SleepStep` — create stepped sleeper
@@ -77,6 +99,8 @@ s := gotimeutils.StringDuration(25*time.Hour + 30*time.Minute) // "1d1h30m0s"
 - `StringDuration(d Duration) string` — format duration with day units
 - `ConvertTimestampsToLocalTime(unix int64) time.Time` — Unix timestamp to local time
 - `TimeNowUTC() string` — current UTC time as `"2006-01-02 15:04:05"` string
+- `GetTimeStamp() string` — current time as a timestamp string
+- `GetTimeStampFromDate(dtformat string) string` — parse a date string and return as timestamp
 - `GetTodaysDate/GetTodaysDateTime/GetTodaysDateTimeFormatted() string` — formatted current date/time
 
 ## Author
